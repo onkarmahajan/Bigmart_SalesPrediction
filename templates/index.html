@@ -1,0 +1,210 @@
+<html>
+<head> 
+    <title>BigMart Sales Analysis</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='js/form.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<body>
+    <div id="nav">
+        <ul>
+            <li><a class="active" href="{{ url_for('home')}}">Home</a></li>
+            <li><a href="{{ url_for('guide')}}">How to?</a></li>
+            <li><a href="{{ url_for('about')}}">About the Author</a></li>
+        </ul>
+    </div>
+    <div id="head">
+        <div>
+            <p class="p1">Bigmart Sales Analysis</p>
+        </div>
+    </div>
+    <div class="m-container" style="text-align: center;">
+        <span class="box">
+            <a href="{{ url_for('bigmart')}}">
+                <div class="polaroid">
+                    <img src="{{ url_for('static', filename='images/bigmart.png') }}" alt="About BigMart" style="width:100%;">
+                    <div class="container">
+                        <p>About BigMart</p>
+                    </div>
+                </div>
+            </a>
+        </span>
+        <span class="box">
+            <a href="{{ url_for('dataexploration')}}">
+                <div class="polaroid">
+                    <img src="{{ url_for('static', filename='images/dataexp.png') }}" alt="Data Exploration" style="width:100%">
+                    <div class="container">
+                        <p>Data Exploration</p>
+                    </div>
+                </div>
+            </a>
+        </span>
+        <span class="box">
+            <div class="polaroid">
+                <img src="{{ url_for('static', filename='images/github.png') }}" alt="GitHub" style="width:100%">
+                <div class="container">
+                    <p>GitHub Repository</p>
+                </div>
+              </div>
+        </span>
+    </div>
+    <div class="m-container">
+        <div class="box">
+            <h1 class="h" style="text-align: center;">Input Features</h1>
+            <form>
+                <div class="w3-container">
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="weight">Weight</label>
+                        </div>
+                        <div class="col-75">
+                            <input type="number" id="weight" name="weight" placeholder="Weight" step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="visibility">Visibility</label>
+                        </div>
+                        <div class="col-75">
+                            <input type="number" id="vis" name="vis" placeholder="Visibility" value="<?php echo isset($_POST['vis']) ? $_POST['vis'] : '' ?>" step="0.000001" min="0" max="1">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="mrp">Max Retail Price</label>
+                        </div>
+                        <div class="col-75">
+                            <input type="number" id="mrp" name="mrp" placeholder="MRP" value="<?php echo isset($_POST['mrp']) ? $_POST['myField1'] : '' ?>" step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="year">Outlet Years</label>
+                        </div>
+                        <div class="col-75">
+                            <input type="number" id="years" name="years" placeholder="Outlet Years" value="<?php echo isset($_POST['years']) ? $_POST['myField1'] : '' ?>" step="1" max="20" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w3-container">
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="fat">Fat</label>
+                        </div>
+                        <div class="col-75">
+                            <select id="fat" name="fat">
+                                <option value="Low Fat">Low Fat</option>
+                                <option value="Regular">Regular</option>
+                                <option value="Non Edible">Non Edible</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="item_type">Item Type</label>
+                        </div>
+                        <div class="col-75">
+                            <select id="item_type" name="item_type">
+                                <option value="FD">Food</option>
+                                <option value="DR">Drink</option>
+                                <option value="NC">NC</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="outlet">Outlet</label>
+                        </div>
+                        <div class="col-75">
+                            <select id="outlet" name="outlet">
+                                <option value="OUT010">OUTLET 010</option>
+                                <option value="OUT013">OUTLET 013</option>
+                                <option value="OUT017">OUTLET 017</option>
+                                <option value="OUT018">OUTLET 018</option>
+                                <option value="OUT019">OUTLET 019</option>
+                                <option value="OUT027">OUTLET 027</option>
+                                <option value="OUT035">OUTLET 035</option>
+                                <option value="OUT045">OUTLET 045</option>
+                                <option value="OUT046">OUTLET 046</option>
+                                <option value="OUT049">OUTLET 049</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="size">Outlet Size</label>
+                        </div>
+                        <div class="col-75">
+                            <select id="size" name="size">
+                                <option value="High">High</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Small">Small</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="tier">Tier</label>
+                        </div>
+                        <div class="col-75">
+                            <select id="tier" name="tier">
+                                <option value="Tier 1">Tier 1</option>
+                                <option value="Tier 2">Tier 2</option>
+                                <option value="Tier 3">Tier 3</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="outlet_type">Outlet Type</label>
+                        </div>
+                        <div class="col-75">
+                            <select id="outlet_type" name="outlet_type">
+                                <option value="Grocery Store">Grocery Store</option>
+                                <option value="Supermarket Type 1">Supermarket Type 1</option>
+                                <option value="Supermarket Type 2">Supermarket Type 2</option>
+                                <option value="Supermarket Type 3">Supermarket Type 3</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="ml">Machine Learning Model</label>
+                        </div>
+                        <div class="col-75">
+                            <select id="ml" name="ml">
+                                <option value="linear">Linear Regression</option>
+                                <option value="decisiontree">Decision Tree Regression</option>
+                                <option value="randomforest">Random Forest Regression</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <input type="submit" value="Predict">
+                    </div>
+                </div>                
+            </form>
+            <p style="font-style: italic;">Note: Navigate to  <a href="{{ url_for('guide') }}" style="color:darkorange">How to?</a> page to view sample values for the features.</p>
+        </div>
+
+        <div id="hide" class="box" style="display: none;">
+            <div style="font-size: 1.5em; font-weight:bold; font-family: 'Times New Roman', Times, serif;" class="col-25">
+                Item_Outlet_Sales: 
+            </div>
+            <div id="predict" class="col-75_2" style="display: none; font-size: large;"></div>
+            <br><br><br><br>
+            <p style="text-align: center;">
+                <h4>Comparing R-Squared</h4>
+                <img class="score" src="{{ url_for('static', filename='images/r2_compare.png') }}" alt="r2_compare" />
+                <h4>Comparing Cross Validation</h4>
+                <img class="score" src="{{ url_for('static', filename='images/cv_compare.png') }}" alt="cv_compare" />
+            </p>
+        </div>
+    </div>
+
+
+</body>
+</html>

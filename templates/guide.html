@@ -1,0 +1,68 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+    </head>
+    <body>
+        <div id="nav">
+            <ul>
+                <li><a href="{{ url_for('home')}}">Home</a></li>
+                <li><a class="active" href="{{ url_for('guide')}}">How to?</a></li>
+                <li><a href="{{ url_for('about')}}">About the Author</a></li>
+            </ul>
+        </div>
+        <div id="head">
+            <div>
+                <p class="p1">How to?</p>
+            </div>
+        </div>
+        <div class="m-container" style="text-align: center;">
+            <a class="download" href="{{ url_for('static', filename='download/Train.csv') }}" download>Download Train Dataset</a>
+            <a class="download" href="{{ url_for('static', filename='download/Test.csv') }}" download>Download Test Dataset</a>
+            
+            <div class="p1" style="text-align: left;">
+                <p>
+                    <span style="font-weight: bold;">Bigmart</span>, a one-stop-shopping-center, has been discussed to predict the sales 
+                    of different types of items and for understanding the effects of different factors 
+                    on the items’ sales.
+                </p>
+                <h3><br>Problem statement</h3>
+                <p>
+                    The data scientists at Bigmart have collected 2013 sales data for 1559 products 
+                    across 10 stores in different cities. Also, certain attributes of each product 
+                    and store have been defined. The aim is to build a predictive model and find out 
+                    the sales of each product at a particular store.
+                </p>
+                <p>
+                    There are a total of 12 features in the Dataset, out of which some are altered to fit
+                    in the machine learning model. <br>See <a style="color: darkorange;" href=" {{ url_for('dataexploration')}} ">Data Exploration</a> for more information.
+                </p>
+                <p>
+                    <br>After performing Data Exploration and Data Cleaning, we are left with 10 input features
+                    which are as follows:<br><br>
+                    <span style="font-weight: bold;">Weight</span>: Weight of the Item in grams.<br>
+                    <span style="font-weight: bold;">Visibility</span>: How well the item is visible in the store (range: 0 - 1).<br>
+                    <span style="font-weight: bold;">Max Retail Price</span>: MRP of the item.<br>
+                    <span style="font-weight: bold;">Outlet Years</span>: How much old is the outlet.<br>
+                    <span style="font-weight: bold;">Fat</span>: Fat content of the item (Low Fat, Regular, Non-Edible).<br>
+                    <span style="font-weight: bold;">Item Type</span>: Food, drink or Non-Consumable (NC).<br>
+                    <span style="font-weight: bold;">Outlet</span>: Which outlet you are referring to.<br>
+                    <span style="font-weight: bold;">Outlet Size</span>: Size of the outlet (High, medium or small)<br>
+                    <span style="font-weight: bold;">Tier</span>: Tier of the city the outlet is located in (Tier 1, tier 2 or tier 3).<br>
+                    <span style="font-weight: bold;">Outlet Type</span>: What type of outlet it is (Grocery store, supermarket type1, or supermarket type2)<br>
+                </p>
+                <p>
+                    <br>Now, the last remaining input is the <span style="font-weight: bold;">machine learning model</span>. Currently you can choose 
+                    from 3 models i.e. Linear Regression, Decision Tree Regression and Random Forest Regression.<br>
+                    The output of each model will be the Outlet_Sales and it's respective accuracy scores. With this you
+                    can judge how well this model is fitted to our Dataset.
+                </p>
+                <br>
+                <p>
+                    Below are the 20(out of 8523) tuples of the Bigmart train dataset:
+                    <img src="{{ url_for('static', filename='images/datasetsnip.png') }}" alt="Dataset Snip" style="width: 85%; border: 2px solid #bbb;"><br>
+                    <br><span style="font-style: italic;">You can input the above feature values in the models to check the accuracy of respective models.</span>
+                </p>
+            </div>
+        </div>
+    </body>
+</html>

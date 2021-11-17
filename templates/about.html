@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+    </head>
+    <body>
+        <div id="nav">
+            <ul>
+                <li><a href="{{ url_for('home')}}">Home</a></li>
+                <li><a href="{{ url_for('guide')}}">How to?</a></li>
+                <li><a class="active" href="{{ url_for('about')}}">About the Author</a></li>
+            </ul>
+        </div>
+        <div id="head">
+            <div>
+                <p class="p1">About the Author</p>
+            </div>
+        </div>
+        <div class="m-container">
+            <div class="box">
+                <p>
+                    <span style="font-weight: bolder;">Name:</span>&emsp;Onkar Mahajan<br>
+                    <span style="font-weight: bolder;">Class:</span> &emsp;BE - IV CSE<br>
+                    <span style="font-weight: bolder;">Project:</span> &nbsp;7th Sem<br>
+                    <span style="font-weight: bolder;">College:</span> &nbsp;Faculty of Technology and Engineering, The Maharaja Sayajirao University, Baroda
+                </p>
+            </div>
+        </div>
+    </body>
+</html>

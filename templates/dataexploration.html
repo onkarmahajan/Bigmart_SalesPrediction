@@ -1,0 +1,492 @@
+<html>
+    <head>
+        <title>Data Exploration</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+    </head>
+    <body>
+        <div id="nav">
+            <ul>
+                <li><a href="{{ url_for('home')}}">Home</a></li>
+                <li><a href="{{ url_for('guide')}}">How to?</a></li>
+                <li><a class="active" href="{{ url_for('about')}}">About the Author</a></li>
+            </ul>
+        </div>
+        <div id="head">
+            <div>
+                <p class="p1">Data Exploration</p>
+            </div>
+        </div>
+        <div class="p1" style="width: 90%; margin: 20px auto">
+            <p>
+                Before we start Data Exploration, we will be making some basic assumptions about the
+                dataset.<br>
+                <br>
+                Making assumptions is a very pivotal step in the process of analyzing data. 
+                This involves understanding the problem and making some hypothesis about what could 
+                potentially have a good impact on the outcome. This is done BEFORE looking at the data, 
+                and we end up creating a laundry list of the different analysis which we can potentially 
+                perform if data is available.
+            </p>
+            <p>
+                Below are the 20(out of 8523) tuples of the Bigmart train dataset:
+                <img src="{{ url_for('static', filename='images/datasetsnip.png') }}" alt="Dataset Snip" style="width: 85%; border: 2px solid #bbb;"><br>
+                <a class="download" href="{{ url_for('static', filename='download/Train.csv') }}" download>Download Train Dataset</a>
+                <a class="download" href="{{ url_for('static', filename='download/Test.csv') }}" download>Download Test Dataset</a>
+            </p>
+            <h3><br>Store Level Assumptions</h3>
+            <p>
+                <span style="text-decoration: underline;">City type</span>: Stores located in urban or Tier 1 cities should have higher sales because of the higher income levels of people there.<br>
+                <span style="text-decoration: underline;">Population Density</span>: Stores located in densely populated areas should have higher sales because of more demand.<br>
+                <span style="text-decoration: underline;">Store Capacity</span>: Stores which are very big in size should have higher sales as they act like one-stop-shops and people would prefer getting everything from one place.<br>
+                <span style="text-decoration: underline;">Competitors</span>: Stores having similar establishments nearby should have less sales because of more competition.<br>
+                <span style="text-decoration: underline;">Marketing</span>: Stores which have a good marketing division should have higher sales as it will be able to attract customers through the right offers and advertising.<br>
+                <span style="text-decoration: underline;">Location</span>: Stores located within popular marketplaces should have higher sales because of better access to customers.
+
+            </p>
+            <h3><br>Product Level Assumptions</h3>
+            <p>
+                <span style="text-decoration: underline;">Brand</span>: Branded products should have higher sales because of higher trust in the customer.<br>
+                <span style="text-decoration: underline;">Packaging</span>: Products with good packaging can attract customers and sell more.<br>
+                <span style="text-decoration: underline;">Utility</span>: Daily use products should have a higher tendency to sell as compared to the specific use products.<br>
+                <span style="text-decoration: underline;">Display Area</span>: Products which are given bigger shelves in the store are likely to catch attention first and sell more.<br>
+                <span style="text-decoration: underline;">Visibility in Store</span>: The location of product in a store will impact sales. Ones which are right at entrance will catch the eye of customer first rather than the ones in back.<br>
+                <span style="text-decoration: underline;">Advertising</span>: Better advertising of products in the store will should higher sales in most cases.<br>
+                <span style="text-decoration: underline;">Promotional Offers</span>: Products accompanied with attractive offers and discounts will sell more.
+            </p>
+            <p>
+                <br><br>
+                Now, let's compare our assumptions with the features in the dataset:
+                <img src="{{ url_for('static', filename='images/comparison.png') }}" alt="Dataset Snip" style="width: 85%; border: 2px solid #bbb;">
+                <br><br>
+                To summarize, we were able to assume 6 features correctly out of the total 12 features. This is a good start.
+                <br>Now, we can begin out Data Exploration part.
+                <br><br>
+                <h4>
+                All the codes below are performed in Python using scikit learn, pandas, numpy, matplotlib and 
+                seaborn libraries.
+                </h4>
+                <p>
+                    import pandas as pd<br>
+                    import numpy as np<br>
+                    import matplotlib.pyplot as plt<br>
+                    import seaborn as sns<br>
+                </p>
+            </p>
+        </div>
+        <div class="polaroid" style="width: 90%; height: auto; margin: 20px auto; padding: 2px;">
+            <div class="p1">
+                <h3>Description</h3>
+                <p>
+                    Here the dataset is the combination of both train and test dataset. This is done so that
+                    feature engineering and data cleaning can be performed on both the datasets simultaneously.<br>
+                    dataset = pd.concat([train, test], ignore_index = True)
+                </p>
+                <h3>Code:</h3>
+                <p>
+                    dataset.dtypes
+                </p>
+                <h3>Output:</h3>
+                <pre>
+Item_Identifier               object
+Item_Weight                  float64
+Item_Fat_Content              object
+Item_Visibility              float64
+Item_Type                     object
+Item_MRP                     float64
+Outlet_Identifier             object
+Outlet_Establishment_Year      int64
+Outlet_Size                   object
+Outlet_Location_Type          object
+Outlet_Type                   object
+Item_Outlet_Sales            float64
+source                        object
+dtype: object
+                </pre>
+                <h3>Inference:</h3>
+                <p>
+                    The above code shows us the numerical and categorical features present in the dataset. 
+                    There are total of 12 features out of which 5 are numerical and 7 are categorical.
+                </p>
+            </div>
+        </div>
+        <div class="polaroid" style="width: 90%; height: auto; margin: 20px auto; padding: 2px;">
+            <div class="p1">
+                <h3>Code:</h3>
+                <p>
+                    num_features = dataset.select_dtypes(include = [np.number])<br>
+                    corr = num_features.corr()<br>
+                    corr['Item_Outlet_Sales'].sort_values(ascending=False)
+                </p>
+                <h3>Output:</h3>
+                <pre>
+Item_Outlet_Sales            1.000000
+Item_MRP                     0.567574
+Item_Weight                  0.014123
+Outlet_Establishment_Year   -0.049135
+Item_Visibility             -0.128625
+Name: Item_Outlet_Sales, dtype: float64
+                </pre>
+                <p>
+                    <br>To support the above correlations, let's plot some graphs.<br>
+                    <span style="font-style: italic;">Note: The below graphs are plotted after Data Cleaning phase to avoid unwanted values.</span>
+                </p>
+                <h3>Graph Code:</h3>
+                <p>
+                    plt.scatter(dataset['Item_Outlet_Sales'],dataset['Item_Outlet_Sales'], color="blue")<br>
+                    plt.xlabel("Item_Outlet_Sales")<br>
+                    plt.ylabel("Item_Outlet_Sales")<br>
+                    plt.title("Item_Outlet_Sales vs Item_Outlet_Sales")<br>
+                    plt.show()
+                </p>
+                <h3>Output:</h3>
+                <p>
+                    <img src="{{ url_for('static', filename='images/sales-sales_scatterplot.png')}}" alt="Item_Outlet_Sales vs Item_Outlet_Sales">
+                </p>
+                <h3>Graph Code:</h3>
+                <p>
+                    plt.scatter(dataset['Item_MRP'],dataset['Item_Outlet_Sales'], color="blue")<br>
+                    plt.xlabel("Item_MRP")<br>
+                    plt.ylabel("Item_Outlet_Sales")<br>
+                    plt.title("Item_Outlet_Sales vs Item_MRP")<br>
+                    plt.show()
+                </p>
+                <h3>Output:</h3>
+                <p>
+                    <img src="{{ url_for('static', filename='images/sales-mrp_scatterplot.png')}}" alt="Item_Outlet_Sales vs Item_MRP">
+                </p>
+                <h3>Graph Code:</h3>
+                <p>
+                    plt.scatter(dataset['Item_Weight'],dataset['Item_Outlet_Sales'], color="blue")<br>
+                    plt.xlabel("Item_Weight")<br>
+                    plt.ylabel("Item_Outlet_Sales")<br>
+                    plt.title("Item_Outlet_Sales vs Item_Weight")<br>
+                    plt.show()
+                </p>
+                <h3>Output:</h3>
+                <p>
+                    <img src="{{ url_for('static', filename='images/sales-weight_scatterplot.png')}}" alt="Item_Outlet_Sales vs Item_Weight">
+                </p>
+                <h3>Graph Code:</h3>
+                <p>
+                    plt.scatter(dataset['Outlet_Years'],dataset['Item_Outlet_Sales'], color="blue")<br>
+                    plt.xlabel("Outlet_Years")<br>
+                    plt.ylabel("Item_Outlet_Sales")<br>
+                    plt.title("Item_Outlet_Sales vs Outlet_Years")<br>
+                    plt.show()
+                </p>
+                <h3>Output:</h3>
+                <p>
+                    <img src="{{ url_for('static', filename='images/sales-year_scatterplot.png')}}" alt="Item_Outlet_Sales vs Outlet_Years">
+                </p>
+                <h3>Graph Code:</h3>
+                <p>
+                    plt.scatter(dataset['Item_Visibility'],dataset['Item_Outlet_Sales'], color="blue")<br>
+                    plt.xlabel("Item_Visibility")<br>
+                    plt.ylabel("Item_Outlet_Sales")<br>
+                    plt.title("Item_Outlet_Sales vs Item_Visibility")<br>
+                    plt.show()
+                </p>
+                <h3>Output:</h3>
+                <p>
+                    <img src="{{ url_for('static', filename='images/sales-visibility_scatterplot.png')}}" alt="Item_Outlet_Sales vs Item_Visibility">
+                </p>
+                <h3>Inference:</h3>
+                <p>
+                    From the above results, we can see that Item_MRP have the most positive correlation 
+                    and the Item_Visibility have the lowest correlation with our target variable. 
+                    It is totally different from our initial hypotheses, these variables was expected 
+                    to have high impact in the sales increase.
+                </p>
+            </div>
+        </div>
+        <div class="polaroid" style="width: 90%; height: auto; margin: 20px auto; padding: 2px;">
+            <div class="p1">
+                <h3>Code:</h3>
+                <p>
+                    categories = [x for x in dataset.dtypes.index if dataset.dtypes[x]=='object']<br>
+                    <br>    
+                    for x in categories:<br>
+                    &emsp;print(f"{x} \n{dataset[x].value_counts()}\n")
+                </p>
+                <h3>Output:</h3>
+                <pre>
+Item_Identifier
+NCV42    10
+FDO09    10
+NCZ42    10
+FDJ41    10
+FDV20    10
+        ..
+FDI46     7
+DRN11     7
+NCL42     7
+FDH58     7
+FDM52     7
+Name: Item_Identifier, Length: 1559, dtype: int64
+                    
+Item_Fat_Content 
+Low Fat    8485
+Regular    4824
+LF          522
+reg         195
+low fat     178
+Name: Item_Fat_Content, dtype: int64
+                    
+Item_Type 
+Fruits and Vegetables    2013
+Snack Foods              1989
+Household                1548
+Frozen Foods             1426
+Dairy                    1136
+Baking Goods             1086
+Canned                   1084
+Health and Hygiene        858
+Meat                      736
+Soft Drinks               726
+Breads                    416
+Hard Drinks               362
+Others                    280
+Starchy Foods             269
+Breakfast                 186
+Seafood                    89
+Name: Item_Type, dtype: int64
+                    
+Outlet_Identifier 
+OUT027    1559
+OUT013    1553
+OUT046    1550
+OUT035    1550
+OUT049    1550
+OUT045    1548
+OUT018    1546
+OUT017    1543
+OUT010     925
+OUT019     880
+Name: Outlet_Identifier, dtype: int64
+                    
+Outlet_Size 
+Medium    4655
+Small     3980
+High      1553
+Name: Outlet_Size, dtype: int64
+                    
+Outlet_Location_Type 
+Tier 3    5583
+Tier 2    4641
+Tier 1    3980
+Name: Outlet_Location_Type, dtype: int64
+                    
+Outlet_Type 
+Supermarket Type1    9294
+Grocery Store        1805
+Supermarket Type3    1559
+Supermarket Type2    1546
+Name: Outlet_Type, dtype: int64
+                    
+source 
+train    8523
+test     5681
+Name: source, dtype: int64
+                </pre>
+                <h3>Inference:</h3>
+                <p>
+                    1. We have 1559 unique products which matches with the problem statement. Moreover, there are 16 Item_Type categories which can reduce the accuracy of our model and so we have to find a way to reduce the number of categories for Item_Type.<br>
+                    2. We will not include Item_Identifier, because there are 1559 unique values and we can extract it from other features like Item_Type.<br>
+                    3. Item_Fat_Content has some irregular factor levels.<br>
+                    4. Item_Type categories have to be reduced.<br>
+                    5. We will also not include Outlet_Identifier.
+                </p>
+            </div>
+        </div>
+        <div class="polaroid" style="width: 90%; height: auto; margin: 20px auto; padding: 2px;">
+            <div class="p1">
+                <h3>Code:</h3>
+                <p>
+                    plt.figure(figsize=(12,7))<br>
+                    plt.xlabel("Item_Weight")<br>
+                    plt.ylabel("Item_Outlet_Sales")<br>
+                    plt.title("Item_Outlet_Sales and Item_Weight Analysis")<br>
+                    plt.plot(dataset['Item_Weight'], dataset["Item_Outlet_Sales"],'.', alpha = 0.3)
+                </p>
+                <h3>Output:</h3>
+                <p>
+                    <img src="{{ url_for('static', filename='images/sales-weight.png')}}" alt="Outlet_Sales vs Item_Weight">
+                </p>
+                <h3>Inference:</h3>
+                <p>
+                    We saw previously that Item_Weight had a low correlation with our target variable. This plot shows there relation.
+                </p>
+                <h3>Code:</h3>
+                <p>
+                    plt.figure(figsize=(12,7))<br>
+                    plt.xlabel("Item_Visibility")<br>
+                    plt.ylabel("Item_Outlet_Sales")<br>
+                    plt.title("Item_Outlet_Sales and Item_Visibility Analysis")<br>
+                    plt.plot(dataset['Item_Visibility'], dataset["Item_Outlet_Sales"],'.', alpha = 0.3)
+                </p>
+                <h3>Output:</h3>
+                <p>
+                    <img src="{{ url_for('static', filename='images/sales-visibility.png')}}" alt="Outlet_Sales vs Item_Weight">
+                </p>
+                <h3>Inference:</h3>
+                <p>
+                    We saw previously that Item_Visibility had negative correlation with our target variable. This plot shows there relation.
+                </p>
+                <h3>Code:</h3>
+                <p>
+                    Outlet_Establishment_Year_pivot = dataset.pivot_table(index='Outlet_Establishment_Year', values="Item_Outlet_Sales", aggfunc=np.median)<br>
+                    Outlet_Establishment_Year_pivot.plot(kind='bar', color='blue',figsize=(12,7))<br>
+                    <br>    
+                    plt.xlabel("Outlet_Establishment_Year")<br>
+                    plt.ylabel("Sqrt Item_Outlet_Sales")<br>
+                    plt.title("Impact of Outlet_Establishment_Year on Item_Outlet_Sales")<br>
+                    plt.xticks(rotation=0)<br>
+                    plt.show()
+                </p>
+                <h3>Output:</h3>
+                <p>
+                    <img src="{{ url_for('static', filename='images/sales-establishment_year.png')}}" alt="Outlet_Sales vs Item_Weight">
+                </p>
+                <h3>Inference:</h3>
+                <p>
+                    There seems to be no appreciable meaning between the year of store establishment and the sales for the items.                </p>
+            </div>
+        </div>
+        <div class="polaroid" style="width: 90%; height: auto; margin: 20px auto; padding: 2px;">
+            <div class="p1">
+                <h3>Code:</h3>
+                <p>
+                    Item_Fat_Content_pivot = dataset.pivot_table(index='Item_Fat_Content', values="Item_Outlet_Sales", aggfunc=np.median)<br>
+                    Item_Fat_Content_pivot.plot(kind='bar', color='blue',figsize=(12,7))<br>
+                    <br>
+                    plt.xlabel("Item_Fat_Content")<br>
+                    plt.ylabel("Item_Outlet_Sales")<br>
+                    plt.title("Item_Outlet_Sales and Item_Fat_Content")<br>
+                    plt.xticks(rotation=0)<br>
+                    plt.show()
+                </p>
+                <h3>Output:</h3>
+                <p>
+                    <img src="{{ url_for('static', filename='images/sales-fat.png')}}" alt="Outlet_Sales vs Item_Fat_Content">
+                </p>
+                <h3>Inference:</h3>
+                <p>
+                    Low Fat products seem to higher sales than the Regular products.
+                </p>
+                <h3>Code:</h3>
+                <p>
+                    Outlet_Identifier_pivot = dataset.pivot_table(index='Outlet_Identifier', values="Item_Outlet_Sales", aggfunc=np.median)<br>
+                    Outlet_Identifier_pivot.plot(kind='bar', color='blue',figsize=(12,7))<br>
+                    <br>
+                    plt.xlabel("Outlet_Identifier")<br>
+                    plt.ylabel("Item_Outlet_Sales")<br>
+                    plt.title("Item_Outlet_Sales and Outlet_Identifier")<br>
+                    plt.xticks(rotation=0)<br>
+                    plt.show()<br>
+                    <br>
+                    train.pivot_table(values='Outlet_Type', columns='Outlet_Identifier', aggfunc=lambda x:x.mode())<br>
+                </p>
+                <h3>Output:</h3>
+                <p>
+                    <img src="{{ url_for('static', filename='images/sales-identifier.png')}}" alt="Outlet_Sales vs Outlet_Identifier">
+                </p>
+                <h3>Inference:</h3>
+                <p>
+                    Out of 10, there are 2 Groceries strore, 6 Supermarket Type1, 1Supermarket Type2, and 1 Supermarket Type3. You can see from the above pivot table.
+                </p>
+                <h3>Code:</h3>
+                <p>
+                    Outlet_Size_pivot = dataset.pivot_table(index='Outlet_Size', values="Item_Outlet_Sales", aggfunc=np.median)<br>
+                    Outlet_Size_pivot.plot(kind='bar', color='blue',figsize=(12,7))<br>
+                    <br>
+                    plt.xlabel("Outlet_Size")<br>
+                    plt.ylabel("Item_Outlet_Sales")<br>
+                    plt.title("Item_Outlet_Sales and Outlet_Size")<br>
+                    plt.xticks(rotation=0)<br>
+                    plt.show()
+                </p>
+                <h3>Output:</h3>
+                <p>
+                    <img src="{{ url_for('static', filename='images/sales-size.png')}}" alt="Outlet_Sales vs Outlet_Size">
+                </p>
+                <h3>Inference:</h3>
+                <p>
+                    The graph shows that medium type outlet has higher Outlet_Sales value.
+                </p>
+                <h3>Code:</h3>
+                <p>
+                    Outlet_Type_pivot = dataset.pivot_table(index='Outlet_Type', values="Item_Outlet_Sales", aggfunc=np.median)<pr>
+                    Outlet_Type_pivot.plot(kind='bar', color='blue',figsize=(12,7))<pr>
+                    <br>
+                    plt.xlabel("Outlet_Type")<br>
+                    plt.ylabel("Item_Outlet_Sales")<br>
+                    plt.title("Item_Outlet_Sales and Outlet_Type")<br>
+                    plt.xticks(rotation=0)<br>
+                    plt.show()
+                </p>
+                <h3>Output:</h3>
+                <p>
+                    <img src="{{ url_for('static', filename='images/sales-type.png')}}" alt="Outlet_Sales vs Outlet_Type">
+                </p>
+                <h3>Inference:</h3>
+                <p>
+                    Supermarket Type 3 has the highest Outlet_Sales value.
+                </p>
+                <h3>Code:</h3>
+                <p>
+                    Outlet_Location_Type_pivot = dataset.pivot_table(index='Outlet_Location_Type', values="Item_Outlet_Sales", aggfunc=np.median)<br>
+                    Outlet_Location_Type_pivot.plot(kind='bar', color='blue',figsize=(12,7))<br>
+                    <br>
+                    plt.xlabel("Outlet_Location_Type")<br>
+                    plt.ylabel("Item_Outlet_Sales")<br>
+                    plt.title("Item_Outlet_Sales and Outlet_Location_Type")<br>
+                    plt.xticks(rotation=0)<br>
+                    plt.show()
+                </p>
+                <h3>Output:</h3>
+                <p>
+                    <img src="{{ url_for('static', filename='images/sales-type.png')}}" alt="Outlet_Sales vs Outlet_Location_Type">
+                </p>
+                <h3>Inference:</h3>
+                <p>
+                    Tier 2 cities have the higher sales than the Tier 1 and Tier 2.
+                </p>
+            </div>
+        </div>
+        <div class="polaroid" style="width: 90%; height: auto; margin: 20px auto; padding: 2px;">
+            <div class="p1">
+                <h3>Code:</h3>
+                <p>
+                    dataset.apply(lambda x: sum(x.isnull()))
+                </p>
+                <h3>Output:</h3>
+                <pre>
+Item_Identifier                 0
+Item_Weight                  2439
+Item_Fat_Content                0
+Item_Visibility                 0
+Item_Type                       0
+Item_MRP                        0
+Outlet_Identifier               0
+Outlet_Establishment_Year       0
+Outlet_Size                  4016
+Outlet_Location_Type            0
+Outlet_Type                     0
+Item_Outlet_Sales            5681
+source                          0
+dtype: int64
+                </pre>
+                <h3>Inference</h3>
+                <p>
+                    We have to impute the missing values of Item_Weight and Outlet_Size.
+                </p>
+            </div>
+        </div>
+        <div class="p1" style="width: 90%; margin: 20px auto;">
+            <p>
+                After completing the crucial step of Data Exploration, now we have to implement
+                the findings to our dataset.
+            </p>
+        </div>
+    </body>
+</html>
