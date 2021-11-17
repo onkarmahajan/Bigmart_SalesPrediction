@@ -261,6 +261,10 @@ label {
 	p img {
 		height: 40%;
 	}
+	
+	.score {
+		height: 25%;
+	}
 
 }
 
@@ -287,5 +291,9 @@ label {
 
 	p img {
 		height: 30%;
+	}
+	
+	.score {
+		height: 20%;
 	}
 }
