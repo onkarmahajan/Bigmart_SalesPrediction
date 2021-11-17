@@ -42,12 +42,14 @@
             </a>
         </span>
         <span class="box">
-            <div class="polaroid">
-                <img src="{{ url_for('static', filename='images/github.png') }}" alt="GitHub" style="width:100%">
-                <div class="container">
-                    <p>GitHub Repository</p>
-                </div>
-              </div>
+            <a href="{{ url_for('github') }}">
+                <div class="polaroid">
+                    <img src="{{ url_for('static', filename='images/github.png') }}" alt="GitHub" style="width:100%">
+                    <div class="container">
+                        <p>GitHub Repository</p>
+                    </div>
+                  </div>
+            </a>
         </span>
     </div>
     <div class="m-container">
