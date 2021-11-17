@@ -74,5 +74,9 @@ def bigmart():
 def dataexploration():
     return render_template('dataexploration.html')
 
+@app.route('/github')
+def github():
+    return redirect('https://github.com/onkarmahajan/Bigmart_SalesPrediction/')
+
 if __name__ == "__main__":
     app.run(debug = True)
