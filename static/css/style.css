@@ -145,7 +145,7 @@ span.box:hover {
 
 span.box img {
 	height: 100%;
-	object-fit: cover;
+	object-fit: contain;
 }
 
 p img {
