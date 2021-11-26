@@ -2,11 +2,8 @@ import numpy as np
 import pandas as pd
 from flask import Flask, request, jsonify, render_template, redirect
 import pickle
-import os
 
 app = Flask(__name__)
-images_folder = os.path.join('static', 'images')
-app.config['UPLOAD_FOLDER'] = images_folder
 LinearModel = pickle.load(open('LinearModel.pkl', 'rb'))
 DecisionTree = pickle.load(open('DecisionTree.pkl', 'rb'))
 RandomForest = pickle.load(open('RandomForest.pkl', 'rb'))
@@ -26,15 +23,6 @@ def about():
 @app.route('/guide')
 def guide():
     return render_template('guide.html')
-
-@app.route('/ajaxtrial', methods=['POST'])
-def ajaxtrial():
-    name = request.form['name']
-    newName = name[::-1]
-
-    return jsonify({
-        'name' : newName
-    })
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -57,10 +45,6 @@ def predict():
         prediction = DecisionTreePrediction
     elif (model == "randomforest"):
         prediction = RandomForestPrediction
-
-    full_filename_r2 = os.path.join(app.config['UPLOAD_FOLDER'], 'r2_compare.png')
-    full_filename_cv = os.path.join(app.config['UPLOAD_FOLDER'], 'cv_compare.png')
-    # return render_template('index.html', prediction_text = "Outlet Sales: ${0:.2f}".format(prediction), prediction_r2_compare = full_filename_r2, prediction_cv_compare = full_filename_cv)
 
     return jsonify({
         'prediction' : prediction
